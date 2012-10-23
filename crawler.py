@@ -22,20 +22,19 @@ class Usage(Exception):
         self.msg = msg
 
 
-def date_generator(from_date):
-  while True:
+def date_generator(from_date, end_date):
+  while from_date <= end_date:
     yield from_date
-    from_date = from_date - datetime.timedelta(days=1)
+    from_date = from_date + datetime.timedelta(days=1)
 
-def crawler(ingang, attribuut, datum=datetime.datetime.today()):
-	datum=datetime.datetime.today()
+def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datetime.datetime.today()):
 	path = 'DutchRegents/crawler/%s/%s/%s' % (datum.date(), attribuut, ingang)
 	try:
 		os.makedirs(path)
 	except OSError as exc:
 		pass
 
-	for x in itertools.islice(date_generator(datum), 60):
+	for x in date_generator(datum, eind_datum):
 		total = 0
 		path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
 		if not os.path.exists(path):
@@ -62,12 +61,13 @@ def main(argv=None):
     path = 'Zaken'
     attribute = 'GewijzigdOp'
     from_date = datetime.datetime.today()
+    till_date = datetime.datetime.today()
 
     if argv is None:
         argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hp:a:f:v", ["help", "path=", "attribute=", "from="])
+            opts, args = getopt.getopt(argv[1:], "hp:a:f:t:v", ["help", "path=", "attribute=", "from=", "till="])
         except getopt.error, msg:
             raise Usage(msg)
 
@@ -83,8 +83,10 @@ def main(argv=None):
                 attribute = value
             if option in ("-f", "--from"):
                 from_date = datetime.datetime.strptime(value, '%Y-%m-%d')
+            if option in ("-t", "--till"):
+                till_date = datetime.datetime.strptime(value, '%Y-%m-%d')
 
-        crawler(path, attribute, from_date)
+        crawler(path, attribute, from_date, till_date)
 
     except Usage, err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
