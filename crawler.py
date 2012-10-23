@@ -1,8 +1,23 @@
+#!/usr/bin/env python
+# encoding: utf-8
+
+import sys
+import getopt
 import datetime
 import itertools
 import httplib2
 import os
 import urllib
+
+help_message = '''
+Usage: crawer.py [-p <path>] [-a <attribute>] [-f <from_date>]
+'''
+
+
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
 
 def date_generator(from_date):
   while True:
@@ -42,8 +57,44 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today()):
 
 				path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
 
-#crawler('Documenten', 'Datum')
-#crawler('Stemmingen', 'GewijzigdOp')
-#crawler('Besluiten', 'GewijzigdOp')
-#crawler('Activiteiten', 'GewijzigdOp')
-crawler('Zaken', 'GewijzigdOp')
+def main(argv=None):
+    verbose = False
+    path = 'Zaken'
+    attribute = 'GewijzigdOp'
+    from_date = datetime.datetime.today()
+
+    if argv is None:
+        argv = sys.argv
+    try:
+        try:
+            opts, args = getopt.getopt(argv[1:], "hp:a:f:v", ["help", "path=", "attribute=", "from="])
+        except getopt.error, msg:
+            raise Usage(msg)
+
+        # option processing
+        for option, value in opts:
+            if option == "-v":
+                verbose = True
+            if option in ("-h", "--help"):
+                raise Usage(help_message)
+            if option in ("-p", "--path"):
+                path = value.capitalize()
+            if option in ("-a", "--attribute"):
+                attribute = value
+            if option in ("-f", "--from"):
+                from_date = datetime.datetime.strptime(value, '%Y-%m-%d')
+
+        crawler(path, attribute, from_date)
+
+    except Usage, err:
+        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+        print >> sys.stderr, "\t for help use --help"
+        return 2
+
+if __name__ == '__main__':
+    #crawler('Documenten', 'Datum')
+    #crawler('Stemmingen', 'GewijzigdOp')
+    #crawler('Besluiten', 'GewijzigdOp')
+    #crawler('Activiteiten', 'GewijzigdOp')
+    #crawler('Zaken', 'GewijzigdOp')
+    sys.exit(main())
