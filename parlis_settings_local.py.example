@@ -1,0 +1,4 @@
+# Settings for the Parlis API
+
+PARLIS_API_USER = 'xxx'
+PARLIS_API_PASSWORD = 'aaaa1111'
