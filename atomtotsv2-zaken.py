@@ -1,8 +1,10 @@
 from lxml import etree
 import os
 import codecs
+from parlis_settings import settings
 
-root = '/mnt/tmp/apicrawl/DutchRegents/Subtree/Zaken'
+# root = '/mnt/tmp/apicrawl/DutchRegents'
+root = settings['dutchregents_root'] + '/Subtree/Zaken'
 
 def parse_atom(path, entry, extra = []):
 	document_attributen = []

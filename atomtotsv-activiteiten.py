@@ -2,7 +2,10 @@ from lxml import etree
 import os
 import codecs
 
-root = '/mnt/tmp/apicrawl/DutchRegents'
+from parlis_settings import settings
+
+# root = '/mnt/tmp/apicrawl/DutchRegents'
+root = settings['dutchregents_root']
 
 def parse_atom(path, entry, extra = []):
 	document_attributen = []

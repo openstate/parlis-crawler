@@ -2,3 +2,6 @@
 
 PARLIS_API_USER = 'xxx'
 PARLIS_API_PASSWORD = 'aaaa1111'
+
+# Settings for the local cache, no slash at the end!
+DUTCHREGENTS_ROOT = '/path/to/root'
