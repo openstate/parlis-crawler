@@ -8,6 +8,9 @@ import itertools
 import httplib2
 import os
 import urllib
+from parlis_utils import get_http_client
+
+h = get_http_client()
 
 help_message = '''
 Usage: crawer.py [-p <path>] [-a <attribute>] [-f <from_date>]
@@ -23,9 +26,6 @@ def date_generator(from_date):
   while True:
     yield from_date
     from_date = from_date - datetime.timedelta(days=1)
-
-h = httplib2.Http(disable_ssl_certificate_validation=True)
-h.add_credentials( 'SOS', 'Open2012' )
 
 def crawler(ingang, attribuut, datum=datetime.datetime.today()):
 	datum=datetime.datetime.today()

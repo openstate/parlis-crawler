@@ -5,8 +5,9 @@ import codecs
 import httplib2
 import datetime
 
-h = httplib2.Http(disable_ssl_certificate_validation=True)
-h.add_credentials( 'SOS', 'Open2012' )
+from parlis_utils import get_http_client
+
+h = get_http_client()
 
 def parse_atom(path, skipuntil):
 	for subtree in ['ZaakActoren', 'Statussen', 'KamerstukDossier', 'Documenten', 'Activiteiten', 'Besluiten', 'GerelateerdVanuit', 'GerelateerdNaar', 'HoofdOverig', 'GerelateerdOverig', 'VervangenVanuit', 'VervangenDoor', 'Agendapunten']:
