@@ -1,9 +1,11 @@
-from lxml import etree
+#!/usr/bin/env python
+
 import sys
 import os
 import codecs
 import httplib2
 import datetime
+from lxml import etree
 
 from parlis_utils import get_http_client
 
