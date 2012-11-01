@@ -36,6 +36,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 
 	for x in date_generator(datum, eind_datum):
 		total = 0
+		# FIXME: path and attribute switched?
 		path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
 		if not os.path.exists(path):
 			while True:
@@ -54,6 +55,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 
 				total += occurences
 
+        		# FIXME: path and attribute switched?
 				path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
 
 def main(argv=None):
