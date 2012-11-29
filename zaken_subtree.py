@@ -11,20 +11,14 @@ from parlis_utils import get_http_client
 
 h = get_http_client()
 
-def parse_atom(path, skipuntil):
+def parse_atom(path):
 	for subtree in ['ZaakActoren', 'Statussen', 'KamerstukDossier', 'Documenten', 'Activiteiten', 'Besluiten', 'GerelateerdVanuit', 'GerelateerdNaar', 'HoofdOverig', 'GerelateerdOverig', 'VervangenVanuit', 'VervangenDoor', 'Agendapunten']:
 		try:
 			os.mkdir(path+'_'+subtree)
 		except:
 			pass
 
-	skip = True
 	for filename in sorted(os.listdir(path)):
-		if skip and not filename.startswith(skipuntil):
-			continue
-		else:
-			skip = False
-
 		print filename
 		tree = etree.parse(path + '/' + filename)
 		for elem in tree.iterfind('.//{http://www.w3.org/2005/Atom}entry/{http://www.w3.org/2005/Atom}id'):
@@ -43,6 +37,6 @@ def parse_atom(path, skipuntil):
 #except:
 #	pass
 
-
-parse_atom('DutchRegents/crawler/%s/GewijzigdOp/Zaken'%(datetime.date.today()), sys.argv[1])
+str_date = sys.argv[1]
+parse_atom('DutchRegents/crawler/%s/GewijzigdOp/Zaken'%(str_date))
 
