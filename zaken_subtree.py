@@ -5,11 +5,14 @@ import os
 import codecs
 import httplib2
 import datetime
+import logging
 from lxml import etree
 
 from parlis_utils import get_http_client
 
 h = get_http_client()
+
+logger = logging.getLogger(__name__)
 
 def parse_atom(path):
 	for subtree in ['ZaakActoren', 'Statussen', 'KamerstukDossier', 'Documenten', 'Activiteiten', 'Besluiten', 'GerelateerdVanuit', 'GerelateerdNaar', 'HoofdOverig', 'GerelateerdOverig', 'VervangenVanuit', 'VervangenDoor', 'Agendapunten']:
@@ -22,7 +25,7 @@ def parse_atom(path):
 		print filename
 		tree = etree.parse(path + '/' + filename)
 		for elem in tree.iterfind('.//{http://www.w3.org/2005/Atom}entry/{http://www.w3.org/2005/Atom}id'):
-			print elem.text
+			logger.info(elem.text)
 			id = elem.text.split("'")[1]
 			for subtree in ['ZaakActoren', 'Statussen', 'KamerstukDossier', 'Documenten', 'Activiteiten', 'Besluiten', 'GerelateerdVanuit', 'GerelateerdNaar', 'HoofdOverig', 'GerelateerdOverig', 'VervangenVanuit', 'VervangenDoor', 'Agendapunten']:
 				url = elem.text + '/' + subtree

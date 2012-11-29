@@ -8,11 +8,14 @@ import itertools
 import httplib2
 import os
 import urllib
+import logging
 
 from parlis_utils import get_http_client
 from zaken_substree import parse_atom as parse_atom_zaken_subtree
 
 h = get_http_client()
+
+logger = logging.getLogger(__name__)
 
 help_message = '''
 Usage: crawer.py [-p <path>] [-a <attribute>] [-f <from_date>]
@@ -32,21 +35,21 @@ def date_generator(from_date, end_date):
 def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datetime.datetime.today()):
 	for x in date_generator(datum, eind_datum):
 		total = 0
-		# FIXME: path and attribute switched?
+
 		base_path = 'DutchRegents/crawler/%s/%s/%s' % (x.date(), attribuut, ingang)
     	try:
     		os.makedirs(base_path)
     	except OSError as exc:
     		pass
 		
-		path = base_path + '/%s_%d.atom.xml' % (x.date(), total)
+		path = '%s/%s_%d.atom.xml' % (base_path, x.date(), total)
 
 		if not os.path.exists(path):
 			while True:
 				f = str(x.date())
 				t = str((x + datetime.timedelta(days=1)).date())
 				url = 'https://api.tweedekamer.nl/APIDataService/v1/'+ingang+'/?$filter='+attribuut+'%20ge%20datetime%27'+f+'%27%20and%20'+attribuut+'%20lt%20datetime%27'+t+'%27&$skip='+str(total)
-				print url
+				logger.info(url)
 				resp, content = h.request( url, 'GET' )
 				f = open(path, 'w')
 				f.write(content)
@@ -58,7 +61,6 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 
 				total += occurences
 
-        		# FIXME: path and attribute switched?
 				path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (x.date(), attribuut, ingang, x.date(), total)
 
             parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date(), ))
