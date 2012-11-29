@@ -37,6 +37,8 @@ def parse_atom(path):
 #except:
 #	pass
 
-str_date = sys.argv[1]
-parse_atom('DutchRegents/crawler/%s/GewijzigdOp/Zaken'%(str_date))
+if __name__ == '__main__':
+    from_date = sys.argv[1]
+    till_date = sys.argv[2]
+    parse_atom('DutchRegents/crawler/%s/GewijzigdOp/Zaken'%(str_date))
 

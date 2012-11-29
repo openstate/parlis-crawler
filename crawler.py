@@ -8,7 +8,9 @@ import itertools
 import httplib2
 import os
 import urllib
+
 from parlis_utils import get_http_client
+from zaken_substree import parse_atom as parse_atom_zaken_subtree
 
 h = get_http_client()
 
@@ -28,16 +30,17 @@ def date_generator(from_date, end_date):
     from_date = from_date + datetime.timedelta(days=1)
 
 def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datetime.datetime.today()):
-	path = 'DutchRegents/crawler/%s/%s/%s' % (datum.date(), attribuut, ingang)
-	try:
-		os.makedirs(path)
-	except OSError as exc:
-		pass
-
 	for x in date_generator(datum, eind_datum):
 		total = 0
 		# FIXME: path and attribute switched?
-		path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
+		base_path = 'DutchRegents/crawler/%s/%s/%s' % (x.date(), attribuut, ingang)
+    	try:
+    		os.makedirs(base_path)
+    	except OSError as exc:
+    		pass
+		
+		path = base_path + '/%s_%d.atom.xml' % (x.date(), total)
+
 		if not os.path.exists(path):
 			while True:
 				f = str(x.date())
@@ -56,7 +59,9 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 				total += occurences
 
         		# FIXME: path and attribute switched?
-				path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (datum.date(), attribuut, ingang, x.date(), total)
+				path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (x.date(), attribuut, ingang, x.date(), total)
+
+            parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date(), ))
 
 def main(argv=None):
     verbose = False
