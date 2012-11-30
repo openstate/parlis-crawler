@@ -22,7 +22,7 @@ def parse_atom(path):
 			pass
 
 	for filename in sorted(os.listdir(path)):
-		print filename
+		logger.info(filename)
 		tree = etree.parse(path + '/' + filename)
 		for elem in tree.iterfind('.//{http://www.w3.org/2005/Atom}entry/{http://www.w3.org/2005/Atom}id'):
 			logger.info(elem.text)

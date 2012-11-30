@@ -4,12 +4,15 @@ import codecs
 
 from parlis_settings import settings
 
-# root = '/mnt/tmp/apicrawl/DutchRegents'
-root = settings['dutchregents_root']
+ZAKEN_ATTRIBUTEN = ['Id', 'Nummer', 'Soort', 'Titel', 'CiteerTitel', 'Alias', 'Status', 'Onderwerp', 'DatumStart', 'Kamer', 'GrondslagVoorhang', 'Termijn', 'Vergaderjaar', 'Volgnummer', 'HuidigeBehandelStatus', 'Afgedaan', 'GrootProject', 'AangemaaktOp', 'GewijzigdOp']
 
-def parse_atom(path, entry, attributes,  extra = []):
+def parse_atom(path, entry, attributes=None,  extra = []):
+    if attributes is None:
+        attributes = ZAKEN_ATTRIBUTEN
+
 	f = codecs.open(entry + '.tsv', 'w', 'UTF-8')
 	f.write('\t'.join(attributes + extra) + '\n')
+
 	for filename in sorted(os.listdir(path + '/' + entry)):
 		print filename
 		tree = etree.parse(path + '/' + entry + '/' + filename)
@@ -24,9 +27,9 @@ def parse_atom(path, entry, attributes,  extra = []):
 				else:
 					row.append('')
 			f.write('\t'.join(row) + '\n')
+
 	f.close()
 
-document_attributen = ['Id', 'Nummer', 'Soort', 'Titel', 'CiteerTitel', 'Alias', 'Status', 'Onderwerp', 'DatumStart', 'Kamer', 'GrondslagVoorhang', 'Termijn', 'Vergaderjaar', 'Volgnummer', 'HuidigeBehandelStatus', 'Afgedaan', 'GrootProject', 'AangemaaktOp', 'GewijzigdOp']
 
-parse_atom(root, 'Zaken', document_attributen, [])
+# parse_atom(root, 'Zaken', document_attributen, [])
 

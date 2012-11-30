@@ -12,6 +12,7 @@ import logging
 
 from parlis_utils import get_http_client
 from zaken_subtree import parse_atom as parse_atom_zaken_subtree
+from atomtotsv_zaken import parse_atom as convert_atom_zaken_to_tsv
 
 h = get_http_client()
 
@@ -63,6 +64,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 
                 path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (x.date(), attribuut, ingang, x.date(), total)
             parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
+            convert_atom_zaken_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Zaken')
 
 def main(argv=None):
     verbose = False
