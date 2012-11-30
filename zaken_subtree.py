@@ -28,11 +28,13 @@ def parse_atom(path):
 			logger.info(elem.text)
 			id = elem.text.split("'")[1]
 			for subtree in ['ZaakActoren', 'Statussen', 'KamerstukDossier', 'Documenten', 'Activiteiten', 'Besluiten', 'GerelateerdVanuit', 'GerelateerdNaar', 'HoofdOverig', 'GerelateerdOverig', 'VervangenVanuit', 'VervangenDoor', 'Agendapunten']:
-				url = elem.text + '/' + subtree
-				resp, content = h.request( url, 'GET' )
-				f = open(path+'_'+subtree+'/%s.atom.xml' % (id,), 'w')
-				f.write(content)
-				f.close()
+				subtree_file_name = path+'_'+subtree+'/%s.atom.xml' % (id,)
+				if not os.path.exists(subtree_file_name):
+    				url = elem.text + '/' + subtree
+    				resp, content = h.request( url, 'GET' )
+    				f = open(subtree_file_name, 'w')
+    				f.write(content)
+    				f.close()
 
 
 #try:
