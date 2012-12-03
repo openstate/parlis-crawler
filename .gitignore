@@ -28,4 +28,6 @@ pip-log.txt
 
 DutchRegents/
 
+*.tsv
+
 parlis_settings_local.py
