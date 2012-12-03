@@ -20,7 +20,7 @@ def parse_atom(path, entry, attributes=None,  extra = []):
 		for elem in tree.iterfind('.//{http://www.w3.org/2005/Atom}entry'):
 			subtree = elem.find('.//{http://schemas.microsoft.com/ado/2007/08/dataservices/metadata}properties')
 			row = []
-			for x in document_attributen:
+			for x in ZAKEN_ATTRIBUTEN:
 				attribuut = subtree.find('.//{http://schemas.microsoft.com/ado/2007/08/dataservices}'+x)
 				if attribuut is not None and attribuut.text is not None:
 					row.append(attribuut.text.replace('\n', ' ').replace('\t', ' ').replace('\r', ''))
