@@ -63,8 +63,9 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
                 total += occurences
 
                 path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (x.date(), attribuut, ingang, x.date(), total)
-            parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
-            convert_atom_zaken_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Zaken')
+
+        parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
+        convert_atom_zaken_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Zaken')
 
 def main(argv=None):
     verbose = False
