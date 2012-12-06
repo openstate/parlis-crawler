@@ -12,6 +12,8 @@ import logging
 
 from parlis_utils import get_http_client
 from zaken_subtree import parse_atom as parse_atom_zaken_subtree
+from besluiten_stemmingen import parse_atom as parse_besluiten_stemmingen_subtree
+
 from atomtotsv_zaken import parse_atom as convert_atom_zaken_to_tsv
 from atomtotsv2_zaken import parse_zaken as convert_atom_zaken_subtree_to_tsv
 
@@ -65,9 +67,16 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
 
                 path = 'DutchRegents/crawler/%s/%s/%s/%s_%d.atom.xml' % (x.date(), attribuut, ingang, x.date(), total)
 
-        parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
-        convert_atom_zaken_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Zaken')
-        convert_atom_zaken_subtree_to_tsv('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
+        if ingang == 'Zaken':
+            parse_atom_zaken_subtree('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
+            convert_atom_zaken_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Zaken')
+            convert_atom_zaken_subtree_to_tsv('DutchRegents/crawler/%s/GewijzigdOp/Zaken' % (x.date()))
+        elif ingang == 'Stemmingen':
+            pass
+        elif ingang == 'Besluiten':
+            parse_besluiten_stemmingen_subtree('DutchRegents/crawler/%s/GewijzigdOp/Besluiten' % (x.date()))
+        elif ingang == 'Activiteiten':
+            pass
 
 def main(argv=None):
     verbose = False
