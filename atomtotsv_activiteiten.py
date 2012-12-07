@@ -3,7 +3,7 @@ import os
 import codecs
 
 def parse_atom(path, entry, extra = []):
-	document_attributen = []
+	document_attributen = [] # WTF?
 	f = None
 	for filename in sorted(os.listdir(path + '/' + entry)):
 		print filename

@@ -23,6 +23,8 @@ from atomtotsv_stemmingen import parse_atom as convert_stemmingen_to_tsv
 
 from activiteiten_subtree import parse_atom as parse_atom_activiteiten_subtree
 
+from atomtotsv_activiteiten import parse_activiteiten as convert_atom_activiteiten_subtree_to_tsv
+
 h = get_http_client()
 
 logger = logging.getLogger(__name__)
@@ -85,6 +87,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
             convert_stemmingen_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Besluiten_Stemmingen')
         elif ingang == 'Activiteiten':
             parse_atom_activiteiten_subtree('DutchRegents/crawler/%s/GewijzigdOp/Activiteiten' % (x.date()))
+            convert_atom_activiteiten_subtree_to_tsv('DutchRegents/crawler/%s/GewijzigdOp/Activiteiten' % (x.date()))
 
 def main(argv=None):
     verbose = False
