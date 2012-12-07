@@ -8,6 +8,11 @@ from parlis_utils import get_http_client
 h = get_http_client()
 
 def parse_atom(path):
+    try:
+        os.mkdir(path+'_Stemmingen')
+    except:
+        pass
+    
 	for filename in sorted(os.listdir(path)):
 		print filename
 		tree = etree.parse(path + '/' + filename)
@@ -16,7 +21,8 @@ def parse_atom(path):
 			id = elem.text.split("'")[1]
 			url = elem.text + '/Stemmingen'
 			resp, content = h.request( url, 'GET' )
-			f = open('DutchRegents/Stemmingen/%s.atom.xml' % (id,), 'w')
+			file_name = path + '_Stemmingen/%s.atom.xml' % (id,)
+			f = open(file_name, 'w')
 			f.write(content)
 			f.close()
 
