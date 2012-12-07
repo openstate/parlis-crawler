@@ -16,6 +16,10 @@ def parse_atom(path):
             id = elem.text.split("'")[1]
 
             for subtree in ['ActiviteitActoren', 'Agendapunten', 'Documenten', 'Zaken', 'VoortgezetVanuit', 'VoortgezetIn', 'VervangenVanuit', 'VervangenDoor', 'Reserveringen']:
+                try:
+                    os.mkdir(path+'_'+subtree)
+                except:
+                    pass
                 subtree_file_name = path+'_'+subtree+'/%s.atom.xml' % (id,)
                 if not os.path.exists(subtree_file_name):
                     url = elem.text + '/' + subtree
