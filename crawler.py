@@ -88,6 +88,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
         elif ingang == 'Activiteiten':
             parse_atom_activiteiten_subtree('DutchRegents/crawler/%s/GewijzigdOp/Activiteiten' % (x.date()))
             convert_atom_activiteiten_subtree_to_tsv('DutchRegents/crawler/%s/GewijzigdOp/Activiteiten' % (x.date()))
+            # what about tsv of activiteiten themselves?
 
 def main(argv=None):
     verbose = False
