@@ -2,11 +2,6 @@ from lxml import etree
 import os
 import codecs
 
-from parlis_settings import settings
-
-# root = '/mnt/tmp/apicrawl/DutchRegents'
-root = settings['dutchregents_root']
-
 def parse_atom(path, entry, extra = []):
 	document_attributen = []
 	f = None
@@ -35,6 +30,8 @@ def parse_atom(path, entry, extra = []):
 			row.append(SID)
 			f.write('\t'.join(row) + '\n')
 	f.close()
-for subtree in ['ActiviteitActoren', 'Agendapunten', 'Documenten', 'Zaken', 'VoortgezetVanuit', 'VoortgezetIn', 'VervangenVanuit', 'VervangenDoor', 'Reserveringen']:
-	parse_atom(root, subtree, ['SID_Activiteit'])
+
+def parse_activiteiten(root):
+    for subtree in ['ActiviteitActoren', 'Agendapunten', 'Documenten', 'Zaken', 'VoortgezetVanuit', 'VoortgezetIn', 'VervangenVanuit', 'VervangenDoor', 'Reserveringen']:
+    	parse_atom(root, subtree, ['SID_Activiteit'])
 

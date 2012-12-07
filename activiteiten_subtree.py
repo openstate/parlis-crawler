@@ -16,11 +16,13 @@ def parse_atom(path):
 			id = elem.text.split("'")[1]
 
 			for subtree in ['ActiviteitActoren', 'Agendapunten', 'Documenten', 'Zaken', 'VoortgezetVanuit', 'VoortgezetIn', 'VervangenVanuit', 'VervangenDoor', 'Reserveringen']:
-				url = elem.text + '/' + subtree
-				resp, content = h.request( url, 'GET' )
-				f = open('DutchRegents/'+subtree+'/%s.atom.xml' % (id,), 'w')
-				f.write(content)
-				f.close()
+	            subtree_file_name = path+'_'+subtree+'/%s.atom.xml' % (id,)
+                if not os.path.exists(subtree_file_name):
+    				url = elem.text + '/' + subtree
+    				resp, content = h.request( url, 'GET' )
+    				f = open(subtree_file_name, 'w')
+    				f.write(content)
+    				f.close()
 
-parse_atom('DutchRegents/Activiteiten')
+# parse_atom('DutchRegents/Activiteiten')
 
