@@ -80,6 +80,7 @@ def crawler(ingang, attribuut, datum=datetime.datetime.today(), eind_datum=datet
         elif ingang == 'Besluiten':
             parse_besluiten_stemmingen_subtree('DutchRegents/crawler/%s/GewijzigdOp/Besluiten' % (x.date()))
             convert_atom_besluiten_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Besluiten')
+            convert_stemmingen_to_tsv('DutchRegents/crawler/%s/GewijzigdOp' % (x.date()), 'Besluiten_Stemmingen')
         elif ingang == 'Activiteiten':
             pass
 
