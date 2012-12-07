@@ -20,5 +20,5 @@ def parse_atom(path):
 			f.write(content)
 			f.close()
 
-parse_atom('DutchRegents/Besluiten')
+# parse_atom('DutchRegents/Besluiten')
 
